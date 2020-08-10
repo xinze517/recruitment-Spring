@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.EntInfoDAO">
+
+    <insert id="addInfo" parameterType="com.pojo.EntInfo">
+        INSERT INTO ent_info(ent_id, name, legal_representative,
+                             established_date, email, introduction, home_page)
+        VALUES (#{ent_id}, #{name}, #{legal_representative}, #{established_date},
+                #{email}, #{introduction}, #{home_page});
+    </insert>
+
+    <update id="editInfo" parameterType="com.pojo.EntInfo">
+        UPDATE ent_info
+        SET name=#{name},
+            legal_representative=#{legal_representative},
+            established_date=#{established_date},
+            email=#{email},
+            introduction=#{introduction},
+            home_page=#{home_page}
+        WHERE ent_id = #{ent_id};
+    </update>
+
+    <select id="getEntInfo" parameterType="java.lang.Integer" resultType="com.pojo.EntInfo">
+        SELECT *
+        FROM ent_info
+        WHERE ent_id = #{id};
+    </select>
+
+    <select id="getEntInfos" resultType="com.pojo.EntInfo">
+        SELECT *
+        FROM ent_info;
+    </select>
+</mapper>

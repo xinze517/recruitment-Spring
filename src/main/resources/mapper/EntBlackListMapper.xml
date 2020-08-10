@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.EntBlackListDAO">
+
+    <insert id="addItem" parameterType="map">
+        INSERT INTO ent_black_list (ent_id, user_id)
+        VALUES (#{entId}, #{userId});
+    </insert>
+
+    <update id="delItem" parameterType="java.lang.Integer">
+        DELETE
+        FROM ent_black_list
+        WHERE black_list_id = #{blackListId};
+    </update>
+
+    <select id="getItem" parameterType="map" resultType="com.pojo.EntBlackList">
+        SELECT *
+        FROM ent_black_list
+        WHERE ent_id = #{entId}
+          AND user_id = #{userId};
+    </select>
+
+    <select id="getItemByBlackListId" parameterType="java.lang.Integer" resultType="com.pojo.EntBlackList">
+        SELECT *
+        FROM ent_black_list
+        WHERE black_list_id = #{blackListId};
+    </select>
+
+    <select id="getList" parameterType="java.lang.Integer" resultType="com.pojo.EntBlackList">
+        SELECT *
+        FROM ent_black_list
+        WHERE ent_id = #{entId};
+    </select>
+</mapper>

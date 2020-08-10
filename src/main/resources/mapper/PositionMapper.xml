@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.PositionDAO">
+
+    <insert id="addPosition" parameterType="com.pojo.Position">
+        INSERT INTO position (ent_id, name, status, description, requirements, address, wage)
+        VALUES (#{ent_id}, #{name}, #{status}, #{description}, #{requirements}, #{address}, #{wage});
+    </insert>
+
+    <update id="editPosition" parameterType="com.pojo.Position">
+        UPDATE position
+        SET name=#{name},
+            status=#{status},
+            description=#{description},
+            requirements=#{requirements},
+            address=#{address},
+            wage=#{wage}
+        WHERE position_id = #{position_id};
+    </update>
+
+    <update id="editStatus" parameterType="map">
+        UPDATE position
+        SET status=#{status}
+        WHERE position_id = #{position_id};
+    </update>
+
+    <select id="getPosition" parameterType="java.lang.Integer" resultType="com.pojo.Position">
+        SELECT *
+        FROM position
+        WHERE position_id = #{position_id};
+    </select>
+
+    <select id="getPositionsByEntId" parameterType="java.lang.Integer" resultType="com.pojo.Position">
+        SELECT *
+        FROM position
+        WHERE ent_id = #{ent_id};
+    </select>
+
+    <select id="getPositionsByStatus" parameterType="java.lang.String" resultType="com.pojo.Position">
+        SELECT *
+        FROM position
+        WHERE status = #{status};
+    </select>
+
+    <select id="getPositions" resultType="com.pojo.Position">
+        SELECT *
+        FROM position;
+    </select>
+
+    <select id="getFullPositions" resultType="com.pojo.PositionFull">
+        CALL getFullPositions();
+    </select>
+
+</mapper>

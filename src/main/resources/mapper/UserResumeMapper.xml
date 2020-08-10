@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.UserResumeDAO">
+
+    <insert id="addResume" parameterType="com.pojo.UserResume">
+        INSERT INTO user_resume(user_id, self_evaluation,
+                                home_page, except_position, except_wage, except_city,
+                                work_experience, project_experience)
+        VALUES (#{user_id}, #{self_evaluation}, #{home_page}, #{except_position}, #{except_wage}, #{except_city},
+                #{work_experience}, #{project_experience});
+    </insert>
+
+    <update id="editResume" parameterType="com.pojo.UserResume">
+        UPDATE user_resume
+        SET self_evaluation=#{self_evaluation},
+            home_page=#{home_page},
+            except_position=#{except_position},
+            except_wage=#{except_wage},
+            except_city=#{except_city},
+            work_experience=#{work_experience},
+            project_experience=#{project_experience}
+        WHERE user_id = #{user_id};
+    </update>
+
+    <select id="getUserResume" parameterType="java.lang.Integer" resultType="com.pojo.UserResume">
+        SELECT *
+        FROM user_resume
+        WHERE user_id = #{user_id};
+    </select>
+
+</mapper>

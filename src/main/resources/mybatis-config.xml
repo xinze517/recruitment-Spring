@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <mappers>
+        <mapper resource="mapper/AdminAccountMapper.xml"/>
+        <mapper resource="mapper/EntAccountMapper.xml"/>
+        <mapper resource="mapper/EntBlackListMapper.xml"/>
+        <mapper resource="mapper/EntInfoMapper.xml"/>
+        <mapper resource="mapper/PositionMapper.xml"/>
+        <mapper resource="mapper/RecordApplyMapper.xml"/>
+        <mapper resource="mapper/RecordComplaintMapper.xml"/>
+        <mapper resource="mapper/UserAccountMapper.xml"/>
+        <mapper resource="mapper/UserInfoMapper.xml"/>
+        <mapper resource="mapper/UserResumeMapper.xml"/>
+    </mappers>
+</configuration>

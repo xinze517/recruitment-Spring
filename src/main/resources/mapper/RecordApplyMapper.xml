@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.RecordApplyDAO">
+
+    <insert id="addRecord" parameterType="com.pojo.RecordApply">
+        INSERT INTO record_apply (user_id, ent_id, position_id, status)
+        VALUES (#{user_id}, #{ent_id}, #{position_id}, #{status});
+    </insert>
+
+    <update id="editRecord" parameterType="map">
+        UPDATE record_apply
+        SET status=#{status}
+        WHERE record_id = #{recordId};
+    </update>
+
+    <update id="delRecordByRecordId" parameterType="java.lang.Integer">
+        DELETE
+        FROM record_apply
+        WHERE record_id = #{recordId};
+    </update>
+
+    <update id="delRecordByUserIdAndPositionId" parameterType="map">
+        DELETE
+        FROM record_apply
+        WHERE user_id = #{user_id}
+          AND position_id = #{position_id};
+    </update>
+
+    <update id="delRecordsByUserIdAndEntId" parameterType="map">
+        DELETE
+        FROM record_apply
+        WHERE user_id = #{user_id}
+          AND ent_id = #{ent_id};
+    </update>
+
+    <select id="getRecordByRecordId" parameterType="java.lang.Integer" resultType="com.pojo.RecordApply">
+        SELECT *
+        FROM record_apply
+        WHERE record_id = #{recordId};
+    </select>
+
+    <select id="getRecordByUserIdAndPositionId" parameterType="map" resultType="com.pojo.RecordApply">
+        SELECT *
+        FROM record_apply
+        WHERE user_id = #{user_id}
+          AND position_id = #{position_id};
+    </select>
+
+    <select id="getRecordsByUserId" parameterType="java.lang.Integer" resultType="com.pojo.RecordApply">
+        SELECT *
+        FROM record_apply
+        WHERE user_id = #{user_id};
+    </select>
+
+    <select id="getEntRecordsByEntId" parameterType="java.lang.Integer" resultType="com.pojo.RecordApply">
+        SELECT *
+        FROM record_apply
+        WHERE ent_id = #{ent_id};
+    </select>
+
+    <select id="getAllRecords" resultType="com.pojo.RecordApply">
+        SELECT *
+        FROM record_apply;
+    </select>
+</mapper>

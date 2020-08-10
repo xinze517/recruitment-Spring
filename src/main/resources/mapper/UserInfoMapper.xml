@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.UserInfoDAO">
+
+    <insert id="addInfo" parameterType="com.pojo.UserInfo">
+        INSERT INTO user_info(user_id, name, sex, birthday, city, email)
+        VALUES (#{user_id}, #{name}, #{sex}, #{birthday}, #{city}, #{email});
+    </insert>
+
+    <update id="editInfo" parameterType="com.pojo.UserInfo">
+        UPDATE user_info
+        SET name=#{name},
+            sex=#{sex},
+            birthday=#{birthday},
+            city=#{city},
+            email=#{email}
+        WHERE user_id = #{user_id};
+    </update>
+
+    <select id="getUserInfo" parameterType="java.lang.Integer" resultType="com.pojo.UserInfo">
+        SELECT user_id, name, sex, birthday, TIMESTAMPDIFF(YEAR, birthday, NOW()) age, city, email
+        FROM user_info
+        WHERE user_id = #{user_id};
+    </select>
+
+    <select id="getUserInfos" resultType="com.pojo.UserInfo">
+        SELECT *
+        FROM user_info;
+    </select>
+</mapper>
