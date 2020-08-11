@@ -245,7 +245,7 @@
                                                     </c:choose>
                                                 </strong>
                                                 <input type="button" class="btn btn-outline-primary d-block" value="查看"
-                                                       onclick="window.location.href='${pageContext.request.contextPath}/user/editApplyPage?position_id=${item.positionId}&from=apply'"/>
+                                                       onclick="window.location.href='${pageContext.request.contextPath}/user/editApplyPage?positionId=${item.positionId}&from=apply'"/>
                                             </div>
                                             <span class="d-block">${item.description}/${item.wage}/${item.address}</span>
                                         </div>
@@ -300,7 +300,7 @@
                                             </c:choose>
                                         </strong>
                                         <input type="button" class="btn btn-outline-primary d-block" value="查看"
-                                               onclick="window.location.href='${pageContext.request.contextPath}/user/editApplyPage?position_id=${item.positionId}&from=complaint'"/>
+                                               onclick="window.location.href='${pageContext.request.contextPath}/user/editApplyPage?positionId=${item.positionId}&from=complaint'"/>
                                     </div>
                                     <span class="d-block">${item.description}/${item.wage}/${item.address}</span>
                                 </div>

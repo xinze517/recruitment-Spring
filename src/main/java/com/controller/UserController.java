@@ -2,18 +2,16 @@ package com.controller;
 
 import com.pojo.*;
 import com.service.*;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -36,9 +34,9 @@ public class UserController {
 
     //跳转登录页
     @RequestMapping("/indexPage")
-    public String indexPage(HttpServletRequest request) {
+    public void indexPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("tab", "user");
-        return "forward:/index.jsp";
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     //跳转用户注册
@@ -120,8 +118,6 @@ public class UserController {
         return "main_user_recruit";
     }
 
-    /*****************************************************************************************************/
-
     //用户注册
     @RequestMapping("/register")
     public String register(HttpServletRequest request, String account, String password) {
@@ -196,24 +192,16 @@ public class UserController {
 
     //用户修改简历信息
     @RequestMapping("/editResume")
-    public String editResume(HttpServletRequest request) {
+    public String editResume(HttpSession session, UserResume resume) {
         //获取信息
-        int user_id = (int) request.getSession().getAttribute("user_id");
-        String self_evaluation = request.getParameter("self_evaluation");
-        String home_page = request.getParameter("home_page");
-        String except_position = request.getParameter("except_position");
-        int except_wage = Integer.parseInt(request.getParameter("except_wage"));
-        String except_city = request.getParameter("except_city");
-        String work_experience = request.getParameter("work_experience");
-        String project_experience = request.getParameter("project_experience");
-        UserResume resume = new UserResume(user_id, self_evaluation, home_page, except_position,
-                except_wage, except_city, work_experience, project_experience);
+        int user_id = (int) session.getAttribute("user_id");
+        resume.setUser_id(user_id);
         //检查简历是否存在
         if (userService.isResumeExist(user_id)) {
-            //存在
+            //存在则修改
             userService.editResume(resume);
         } else {
-            //不存在
+            //不存在则添加
             userService.addResume(resume);
         }
         //跳转主页
@@ -222,13 +210,10 @@ public class UserController {
 
     //用户修改密码
     @RequestMapping("/editPassword")
-    public String editPassword(HttpServletRequest request) {
+    public String editPassword(HttpServletRequest request, String old_password,
+                               String new_password, String confirm_password) {
         //获取信息
         int user_id = (int) request.getSession().getAttribute("user_id");
-        String old_password = request.getParameter("old_password");
-        String new_password = request.getParameter("new_password");
-        String confirm_password = request.getParameter("confirm_password");
-
         //校验
         if (!new_password.equals(confirm_password)) {
             //两次密码输入不同
@@ -258,26 +243,23 @@ public class UserController {
 
     //退出登录
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        request.getSession().removeAttribute("user_id");
+    public String logout(HttpSession session) {
+        session.removeAttribute("user_id");
         return "forward:/user/indexPage";
     }
 
     //增加应聘记录/删除应聘记录
     @RequestMapping("/editRecordApply")
-    public String editRecordApply(HttpServletRequest request) {
+    public String editRecordApply(HttpSession session, RecordApply recordApply) {
         //获取必要信息
-        int userId = (int) request.getSession().getAttribute("user_id");
-        int recordId = Integer.parseInt(request.getParameter("record_apply_id"));
-        int entId = Integer.parseInt(request.getParameter("ent_id"));
-        int positionId = Integer.parseInt(request.getParameter("positionId"));
-        String status = "未回复";
+        int userId = (int) session.getAttribute("user_id");
         //组合
-        RecordApply recordApply = new RecordApply(recordId, userId, entId, positionId, status);
+        recordApply.setUser_id(userId);
+        recordApply.setStatus("未回复");
         //检查是否存在该职位的应聘记录
-        if (applyService.isRecordExist(recordId)) {
+        if (applyService.isRecordExist(recordApply.getRecord_id())) {
             //删除该记录
-            applyService.delRecord(recordId);
+            applyService.delRecord(recordApply.getRecord_id());
         } else {
             //添加记录
             applyService.addRecord(recordApply);
@@ -288,19 +270,16 @@ public class UserController {
 
     //增加投诉记录/删除投诉记录
     @RequestMapping("/editRecordComplaint")
-    public String editRecordComplaint(HttpServletRequest request) {
+    public String editRecordComplaint(HttpSession session, RecordComplaint complaint) {
         //获取必要信息
-        int userId = (int) request.getSession().getAttribute("user_id");
-        int entId = Integer.parseInt(request.getParameter("ent_id"));
-        int positionId = Integer.parseInt(request.getParameter("positionId"));
-        int complaintRecordId = Integer.parseInt(request.getParameter("complaintRecordId"));
-        String status = "未处理";  //未处理、投诉成功、投诉失败
+        int userId = (int) session.getAttribute("user_id");
         //组合
-        RecordComplaint complaint = new RecordComplaint(complaintRecordId, entId, positionId, userId, status);
+        complaint.setUser_id(userId);
+        complaint.setStatus("未处理"); //未处理、投诉成功、投诉失败
         //检查是否存在该岗位的投诉记录
-        if (complaintService.isRecordExist(complaintRecordId)) {
+        if (complaintService.isRecordExist(complaint.getRecord_id())) {
             //删除该记录
-            complaintService.delRecord(complaintRecordId);
+            complaintService.delRecord(complaint.getRecord_id());
         } else {
             //投诉增加记录
             complaintService.addRecord(complaint);

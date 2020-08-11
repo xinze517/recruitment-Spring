@@ -24,6 +24,7 @@
 <body class="bg-light">
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <h5 class="my-0 mr-md-auto font-weight-normal">人才招聘网 <span class="badge badge-success">个人版</span></h5>
+    <%--  根据投诉状态选择显示的投诉按钮  --%>
     <c:if test="${complaint == null}">
         <a class="btn btn-outline-danger mr-3" href="#" data-toggle="modal" data-target="#alert-complaint">投诉岗位</a>
     </c:if>
@@ -33,9 +34,11 @@
                data-target="#alert-complaint">取消投诉</a>
         </c:if>
         <c:if test="${!complaint.status.equals('投诉成功')}">
-            <a class="btn btn-outline-success mr-3" href="#" data-toggle="modal" data-target="#alert-complaint">取消投诉</a>
+            <a class="btn btn-outline-success mr-3" href="#" data-toggle="modal"
+               data-target="#alert-complaint">取消投诉</a>
         </c:if>
     </c:if>
+    <%--  根据页面跳转的来源设定返回主页的位置  --%>
     <a class="btn btn-outline-primary"
             <c:choose>
                 <c:when test="${from.equals('recruit')}">href="${pageContext.request.contextPath}/user/mainPage?tab=recruit"</c:when>
@@ -48,6 +51,7 @@
         <label>
             <input name="tab" value="${from}" hidden>
         </label>
+        <%--    显示投诉状态面板    --%>
         <c:if test="${complaint != null}">
             <c:choose>
                 <c:when test="${complaint.status.equals('投诉成功')}">
@@ -77,7 +81,7 @@
         </c:if>
         <%--    必需的参数    --%>
         <label class="sr-only">
-            <input name="record_apply_id" value="${applyRecordId}" hidden>
+            <input name="record_id" value="${applyRecordId}" hidden>
         </label>
         <label class="sr-only">
             <input name="ent_id" value="${entInfo.ent_id}" hidden>
@@ -185,7 +189,7 @@
                         <input name="ent_id" value="${position.ent_id}" hidden>
                         <input name="position_id" value="${position.position_id}" hidden>
                         <input name="tab" value="${from}" hidden>
-                        <input name="complaintRecordId"
+                        <input name="record_id"
                         <c:if test="${complaint == null}"> value="-1"</c:if>
                         <c:if test="${complaint != null}">
                                value="${complaint.record_id}"</c:if> hidden>

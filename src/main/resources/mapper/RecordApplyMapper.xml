@@ -44,8 +44,8 @@
     <select id="getRecordByUserIdAndPositionId" parameterType="map" resultType="com.pojo.RecordApply">
         SELECT *
         FROM record_apply
-        WHERE user_id = #{user_id}
-          AND position_id = #{position_id};
+        WHERE user_id = #{userId}
+          AND position_id = #{positionId};
     </select>
 
     <select id="getRecordsByUserId" parameterType="java.lang.Integer" resultType="com.pojo.RecordApply">

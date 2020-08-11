@@ -12,20 +12,20 @@ import java.util.Map;
 @Mapper
 public interface RecordComplaintDAO {
 
-    public void addRecord(RecordComplaint complaint);
+    void addRecord(RecordComplaint complaint);
 
-    public void delRecord(int recordId);
+    void delRecord(int recordId);
 
     //recordId,status
-    public void editStatus(Map<String, Object> param);
+    void editStatus(Map<String, Object> param);
 
-    public RecordComplaint getRecordByRecordId(int recordId);
+    RecordComplaint getRecordByRecordId(int recordId);
 
     //userId,positionId
-    public RecordComplaint getRecordByUserIdAndPositionId(Map<String, Object> param);
+    RecordComplaint getRecordByUserIdAndPositionId(Map<String, Object> param);
 
-    public List<RecordComplaint> getAllRecords();
+    List<RecordComplaint> getAllRecords();
 
-    public List<RecordComplaint> getRecordsByUserId(int userId);
+    List<RecordComplaint> getRecordsByUserId(int userId);
 
 }

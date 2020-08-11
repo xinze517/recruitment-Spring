@@ -23,7 +23,7 @@
     <update id="editPassword" parameterType="map">
         UPDATE user_account
         SET password= #{password}
-        WHERE user_id = #{user_id};
+        WHERE user_id = #{id};
     </update>
 
     <select id="getId" parameterType="java.lang.String" resultType="java.lang.Integer">

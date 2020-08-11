@@ -14,14 +14,14 @@ import java.util.Map;
 public interface EntBlackListDAO {
 
     //entId,userId
-    public void addItem(Map<String, Object> param);
+    void addItem(Map<String, Object> param);
 
-    public void delItem(int blackListId);
+    void delItem(int blackListId);
 
     //entId,userId
-    public EntBlackList getItem(Map<String, Object> param);
+    EntBlackList getItem(Map<String, Object> param);
 
-    public EntBlackList getItemByBlackListId(int blackListId);
+    EntBlackList getItemByBlackListId(int blackListId);
 
-    public List<EntBlackList> getList(int entId);
+    List<EntBlackList> getList(int entId);
 }
