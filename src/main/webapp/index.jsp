@@ -68,7 +68,7 @@
     </div>
     <!-- 企业用户登录框 -->
     <div class="tab-pane fade container" id="enterprise_login">
-        <form method="post" action="login.entDo">
+        <form method="post" action="${pageContext.request.contextPath}/ent/login">
             <div class="col-4 text-center mx-auto mt-lg-5">
                 <div class="card shadow-sm">
                     <div class="card-header">
@@ -85,7 +85,7 @@
                         <div class="py-2">
                             <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">登录</button>
                             <button class="btn btn-lg btn-outline-primary btn-block" type="button"
-                                    onclick="window.location.href='registerPage.entDo'">注册
+                                    onclick="window.location.href='${pageContext.request.contextPath}/ent/registerPage'">注册
                             </button>
                         </div>
                     </div>

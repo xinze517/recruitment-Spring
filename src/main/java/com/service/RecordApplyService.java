@@ -33,12 +33,7 @@ public class RecordApplyService {
 
     //获取某一企业的所有应聘记录
     public List<RecordApply> getEntRecordApplyList(int entId) {
-        List<RecordApply> recordApplyList = applyDAO.getEntRecordsByEntId(entId);
-        if (recordApplyList.size() == 0) {
-            return null;
-        } else {
-            return recordApplyList;
-        }
+        return applyDAO.getEntRecordsByEntId(entId);
     }
 
     //检查某人是否存在某一岗位的应聘记录

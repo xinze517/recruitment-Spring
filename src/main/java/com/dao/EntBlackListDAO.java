@@ -4,8 +4,6 @@ import com.pojo.EntBlackList;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +11,7 @@ import java.util.Map;
 @Mapper
 public interface EntBlackListDAO {
 
-    //entId,userId
-    void addItem(Map<String, Object> param);
+    void addItem(EntBlackList blackList);
 
     void delItem(int blackListId);
 

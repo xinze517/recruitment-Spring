@@ -4,9 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dao.EntBlackListDAO">
 
-    <insert id="addItem" parameterType="map">
+    <insert id="addItem" parameterType="com.pojo.EntBlackList">
         INSERT INTO ent_black_list (ent_id, user_id)
-        VALUES (#{entId}, #{userId});
+        VALUES (#{ent_id}, #{user_id});
     </insert>
 
     <update id="delItem" parameterType="java.lang.Integer">

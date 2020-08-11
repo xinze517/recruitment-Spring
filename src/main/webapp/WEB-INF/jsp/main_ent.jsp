@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
@@ -33,24 +34,24 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" id="position-tab" data-toggle="tab"
-               <c:if test="${!requestScope.entAccount.status.equals('审核通过')}">href="#access_limit"</c:if>
-               <c:if test="${requestScope.entAccount.status.equals('审核通过')}">href="#position"</c:if>>岗位信息管理</a>
+               <c:if test="${!entAccount.status.equals('审核通过')}">href="#access_limit"</c:if>
+               <c:if test="${entAccount.status.equals('审核通过')}">href="#position"</c:if>>岗位信息管理</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="apply-tab" data-toggle="tab"
-               <c:if test="${!requestScope.entAccount.status.equals('审核通过')}">href="#access_limit"</c:if>
-               <c:if test="${requestScope.entAccount.status.equals('审核通过')}">href="#apply"</c:if>>求职信息查询</a>
+               <c:if test="${!entAccount.status.equals('审核通过')}">href="#access_limit"</c:if>
+               <c:if test="${entAccount.status.equals('审核通过')}">href="#apply"</c:if>>求职信息查询</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="black-list-tab" data-toggle="tab"
-               <c:if test="${!requestScope.entAccount.status.equals('审核通过')}">href="#access_limit"</c:if>
-               <c:if test="${requestScope.entAccount.status.equals('审核通过')}">href="#black-list"</c:if>>黑名单管理</a>
+               <c:if test="${!entAccount.status.equals('审核通过')}">href="#access_limit"</c:if>
+               <c:if test="${entAccount.status.equals('审核通过')}">href="#black-list"</c:if>>黑名单管理</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="account-tab" data-toggle="tab" href="#account">账号设置</a>
         </li>
     </ul>
-    <a class="btn btn-outline-primary" href="logout.entDo">退出登录</a>
+    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/ent/logout">退出登录</a>
 </div>
 <div class="container my-5">
     <div class="tab-content">
@@ -58,12 +59,12 @@
         <div class="tab-pane fade" id="info">
             <%-- 资质显示  --%>
             <c:choose>
-                <c:when test="${requestScope.entAccount.status.equals('审核通过')}">
+                <c:when test="${entAccount.status.equals('审核通过')}">
                     <div class="alert alert-success" role="alert">
                         <div class="d-flex justify-content-between align-items-center w-100">
                             <h3 class="alert-heading">企业资质</h3>
                             <button class="btn btn-outline-primary"
-                                    onclick="window.location.href='mainPage.entDo'">
+                                    onclick="window.location.href='${pageContext.request.contextPath}/ent/mainPage'">
                                 <svg class="bi bi-arrow-clockwise" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -78,12 +79,12 @@
                     </div>
                 </c:when>
 
-                <c:when test="${requestScope.entAccount.status.equals('未审核')}">
+                <c:when test="${entAccount.status.equals('未审核')}">
                     <div class="alert alert-warning" role="alert">
                         <div class="d-flex justify-content-between align-items-center w-100">
                             <h3 class="alert-heading">企业资质</h3>
                             <button class="btn btn-outline-primary"
-                                    onclick="window.location.href='mainPage.entDo'">
+                                    onclick="window.location.href='${pageContext.request.contextPath}/ent/mainPage'">
                                 <svg class="bi bi-arrow-clockwise" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -102,7 +103,7 @@
                         <div class="d-flex justify-content-between align-items-center w-100">
                             <h3 class="alert-heading">企业资质</h3>
                             <button class="btn btn-outline-primary"
-                                    onclick="window.location.href='mainPage.entDo'">
+                                    onclick="window.location.href='${pageContext.request.contextPath}/ent/mainPage'">
                                 <svg class="bi bi-arrow-clockwise" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -121,52 +122,54 @@
 
             <table class="table table-striped table-bordered text-center ">
                 <tr>
+                    <%--suppress HtmlDeprecatedAttribute --%>
                     <td width="30%">法人代表</td>
-                    <td>${requestScope.entInfo.legal_representative}</td>
+                    <td>${entInfo.legal_representative}</td>
                 </tr>
                 <tr>
                     <td>成立时间</td>
-                    <td>${requestScope.entInfo.established_date}</td>
+                    <td><fmt:formatDate value="${entInfo.established_date}" pattern="yyyy-MM-dd"/> </td>
                 </tr>
                 <tr>
                     <td>接收简历邮箱</td>
-                    <td>${requestScope.entInfo.email}</td>
+                    <td>${entInfo.email}</td>
                 </tr>
                 <tr>
                     <td>公司全称</td>
-                    <td>${requestScope.entInfo.name}</td>
+                    <td>${entInfo.name}</td>
                 </tr>
                 <tr>
                     <td>公司主页</td>
-                    <td>${requestScope.entInfo.home_page}</td>
+                    <td>${entInfo.home_page}</td>
                 </tr>
                 <tr>
                     <td>公司介绍</td>
-                    <td>${requestScope.entInfo.introduction}</td>
+                    <td>${entInfo.introduction}</td>
                 </tr>
             </table>
             <div class="row">
                 <div class="col-md-3 mx-auto mt-3">
                     <button class="btn btn-lg btn-primary btn-block" type="button"
-                            onclick="window.location.href='editInfoPage.entDo'">
-                        <c:if test="${requestScope.entInfo == null}">添加</c:if>
-                        <c:if test="${requestScope.entInfo != null}">修改</c:if>
+                            onclick="window.location.href='${pageContext.request.contextPath}/ent/editInfoPage'">
+                        <c:if test="${entInfo == null}">添加</c:if>
+                        <c:if test="${entInfo != null}">修改</c:if>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- 岗位信息管理 -->
-        <c:if test="${requestScope.entAccount.status.equals('审核通过')}">
+        <c:if test="${entAccount.status.equals('审核通过')}">
             <div class="tab-pane fade" id="position">
                 <div class="my-3 p-3 bg-white rounded shadow-sm">
+                        <%--  添加岗位    --%>
                     <div class="media  pt-3">
                         <div class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
                             <div class="d-flex justify-content-between align-items-center w-100">
                                 <h4>岗位列表</h4>
                                 <div class="d-flex">
                                     <button class="btn btn-outline-primary mr-3"
-                                            onclick="window.location.href='mainPage.entDo?tab=position'">
+                                            onclick="window.location.href='${pageContext.request.contextPath}/ent/mainPage?tab=position'">
                                         <svg class="bi bi-arrow-clockwise" width="1em" height="1em" viewBox="0 0 16 16"
                                              fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
@@ -177,14 +180,14 @@
                                         刷新
                                     </button>
                                     <input type="button" class="btn btn-outline-primary d-block"
-                                           onclick="window.location.href='editPositionPage.entDo?position_id=-1'"
+                                           onclick="window.location.href='${pageContext.request.contextPath}/ent/editPositionPage?positionId=-1'"
                                            value="添加"/>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- 循环列出岗位信息 -->
-                    <c:forEach var="position_item" items="${requestScope.entPositions}">
+                    <c:forEach var="position_item" items="${entPositions}">
                         <div class="media text-muted pt-3">
                             <div class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
                                 <div class="d-flex justify-content-between align-items-center w-100">
@@ -200,7 +203,7 @@
                                         </c:if>
                                     </strong>
                                     <input type="button" class="btn btn-outline-primary d-block"
-                                           onclick="window.location.href='editPositionPage.entDo?position_id=${position_item.position_id}'"
+                                           onclick="window.location.href='${pageContext.request.contextPath}/ent/editPositionPage?positionId=${position_item.position_id}'"
                                            value="管理"/>
                                 </div>
                                 <span class="d-block">
@@ -214,7 +217,7 @@
         </c:if>
 
         <!-- 求职信息查询 -->
-        <c:if test="${requestScope.entAccount.status.equals('审核通过')}">
+        <c:if test="${entAccount.status.equals('审核通过')}">
             <div class="tab-pane fade" id="apply">
                 <div class="my-3 p-3 bg-white rounded shadow-sm">
                     <div class="media  pt-3">
@@ -222,7 +225,7 @@
                             <div class="d-flex justify-content-between align-items-center w-100">
                                 <h4>求职列表</h4>
                                 <button class="btn btn-outline-primary"
-                                        onclick="window.location.href='mainPage.entDo?tab=apply'">
+                                        onclick="window.location.href='${pageContext.request.contextPath}/ent/mainPage?tab=apply'">
                                     <svg class="bi bi-arrow-clockwise" width="1em" height="1em" viewBox="0 0 16 16"
                                          fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
@@ -236,13 +239,13 @@
                         </div>
                     </div>
                         <%-- 开始制作求职列表(排除黑名单) --%>
-                    <c:forEach items="${requestScope.applyList}" var="item">
-                        <c:if test="${requestScope.isInBlackList[item.user_id] == false}">
+                    <c:forEach items="${applyList}" var="item">
+                        <c:if test="${isInBlackList[item.user_id] == false}">
                             <div class="media text-muted pt-3">
                                 <div class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
                                     <div class="d-flex justify-content-between align-items-center w-100">
-                                        <strong class="text-gray-dark">${requestScope.userInfoMap[item.user_id].name} -
-                                            应聘${requestScope.positionNameMap[item.position_id]}
+                                        <strong class="text-gray-dark">${userInfoMap[item.user_id].name} -
+                                            应聘${positionNameMap[item.position_id]}
                                             <c:choose>
                                                 <c:when test="${item.status.equals('已同意')}">
                                                     <span class="badge badge-success">已同意</span>
@@ -255,10 +258,10 @@
                                                 </c:otherwise>
                                             </c:choose></strong>
                                         <input type="button" class="btn btn-outline-primary d-block"
-                                               onclick="window.location.href='editApplyPage.entDo?applyRecordId=${item.record_id}&from=apply'"
+                                               onclick="window.location.href='${pageContext.request.contextPath}/ent/editApplyPage?applyRecordId=${item.record_id}&from=apply'"
                                                value="查看"/>
                                     </div>
-                                    <span class="d-block">${requestScope.userInfoMap[item.user_id].sex} | ${requestScope.userInfoMap[item.user_id].city} | ${requestScope.userInfoMap[item.user_id].email}
+                                    <span class="d-block">${userInfoMap[item.user_id].sex} | ${userInfoMap[item.user_id].city} | ${userInfoMap[item.user_id].email}
                                 </span>
                                 </div>
                             </div>
@@ -269,7 +272,7 @@
         </c:if>
 
         <!-- 黑名单管理 -->
-        <c:if test="${requestScope.entAccount.status.equals('审核通过')}">
+        <c:if test="${entAccount.status.equals('审核通过')}">
             <div class="tab-pane fade" id="black-list">
                 <div class="my-3 p-3 bg-white rounded shadow-sm">
                     <div class="media  pt-3">
@@ -279,20 +282,20 @@
                             </div>
                         </div>
                     </div>
-                    <c:forEach var="item" items="${requestScope.blackLists}">
-                        <form method="post" action="editBlackList.entDo">
+                    <c:forEach var="item" items="${blackLists}">
+                        <form method="post" action="${pageContext.request.contextPath}/ent/editBlackList">
                             <label>
-                                <input name="userId" value="${item.user_id}" hidden>
-                                <input name="blackListId" value="${item.black_list_id}" hidden>
+                                <input name="user_id" value="${item.user_id}" hidden>
+                                <input name="black_list_id" value="${item.black_list_id}" hidden>
                                 <input name="tab" value="black-list" hidden>
                             </label>
                             <div class="media text-muted pt-3">
                                 <div class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
                                     <div class="d-flex justify-content-between align-items-center w-100">
-                                        <strong class="text-gray-dark">${requestScope.userInfoMap[item.user_id].name}</strong>
+                                        <strong class="text-gray-dark">${userInfoMap[item.user_id].name}</strong>
                                         <input type="submit" class="btn btn-outline-primary d-block" value="解除"/>
                                     </div>
-                                    <span class="d-block">${requestScope.userInfoMap[item.user_id].sex} | ${requestScope.userInfoMap[item.user_id].city} | ${requestScope.userInfoMap[item.user_id].email}</span>
+                                    <span class="d-block">${userInfoMap[item.user_id].sex} | ${userInfoMap[item.user_id].city} | ${userInfoMap[item.user_id].email}</span>
                                 </div>
                             </div>
                         </form>
@@ -303,7 +306,7 @@
 
         <!-- 账号设置 -->
         <div class="tab-pane fade" id="account">
-            <form action="editPassword.entDo" method="post">
+            <form action="${pageContext.request.contextPath}/ent/editPassword" method="post">
                 <div class="form-group form-inline justify-content-center my-4">
                     <label for="old_password">请输入旧密码：</label>
                     <input type="password" name="old_password" class="form-control col-md-4" id="old_password"
@@ -332,7 +335,8 @@
             <div class="jumbotron">
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <h1 class="display-3">访问权限不足！</h1>
-                    <button class="btn btn-outline-primary" onclick="window.location.href='mainPage.entDo'">
+                    <button class="btn btn-outline-primary"
+                            onclick="window.location.href='${pageContext.request.contextPath}/ent/mainPage'">
                         <svg class="bi bi-arrow-clockwise" width="1em" height="1em" viewBox="0 0 16 16"
                              fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
