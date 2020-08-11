@@ -9,9 +9,11 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <%--suppress SpellCheckingInspection --%>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
+    <%--suppress SpellCheckingInspection --%>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             crossorigin="anonymous"></script>
@@ -22,24 +24,24 @@
 <body class="bg-light">
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <h5 class="my-0 mr-md-auto font-weight-normal">人才招聘网 <span class="badge badge-success">管理员</span></h5>
-    <a class="btn btn-outline-primary" href="mainPage.adminDo?tab=ent-manage">返回主页</a>
+    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/admin/mainPage?tab=ent-manage">返回主页</a>
 </div>
 <div class="container my-5">
-    <form action="editEntStatus.adminDo" method="post">
+    <form action="${pageContext.request.contextPath}/admin/editEntStatus" method="post">
         <%--    记录一些必要信息    --%>
         <label>
             <input name="tab" value="ent-manage" hidden>
-            <input name="entId" value="${requestScope.entInfo.ent_id}" hidden>
+            <input name="entId" value="${entInfo.ent_id}" hidden>
         </label>
         <%--应聘者基本信息--%>
         <c:choose>
-            <c:when test="${requestScope.entAccount.status.equals('审核通过')}">
+            <c:when test="${entAccount.status.equals('审核通过')}">
                 <div class="alert alert-success text-center" role="alert">
                     <h4>企业注册信息</h4>
                     <p>企业已经通过审核</p>
                 </div>
             </c:when>
-            <c:when test="${requestScope.entAccount.status.equals('审核不通过')}">
+            <c:when test="${entAccount.status.equals('审核不通过')}">
                 <div class="alert alert-danger text-center" role="alert">
                     <h4>企业注册信息</h4>
                     <p>企业没有通过审核</p>
@@ -54,32 +56,33 @@
 
         <table class="table table-striped table-bordered text-center ">
             <tr>
+                <%--suppress HtmlDeprecatedAttribute --%>
                 <td width="30%">法人代表</td>
-                <td>${requestScope.entInfo.legal_representative}</td>
+                <td>${entInfo.legal_representative}</td>
             </tr>
             <tr>
                 <td>成立时间</td>
-                <td>${requestScope.entInfo.established_date}</td>
+                <td>${entInfo.established_date}</td>
             </tr>
             <tr>
                 <td>接收简历邮箱</td>
-                <td>${requestScope.entInfo.email}</td>
+                <td>${entInfo.email}</td>
             </tr>
             <tr>
                 <td>公司全称</td>
-                <td>${requestScope.entInfo.name}</td>
+                <td>${entInfo.name}</td>
             </tr>
             <tr>
                 <td>公司主页</td>
-                <td>${requestScope.entInfo.home_page}</td>
+                <td>${entInfo.home_page}</td>
             </tr>
             <tr>
                 <td>公司介绍</td>
-                <td>${requestScope.entInfo.introduction}</td>
+                <td>${entInfo.introduction}</td>
             </tr>
         </table>
         <div class="row">
-            <c:if test="${requestScope.entAccount.status.equals('未审核')}">
+            <c:if test="${entAccount.status.equals('未审核')}">
                 <div class="col-md-3 mx-auto mt-3">
                     <button class="btn btn-lg btn-outline-success btn-block" name="status"
                             value="审核通过" type="submit">审核通过
@@ -91,14 +94,14 @@
                     </button>
                 </div>
             </c:if>
-            <c:if test="${requestScope.entAccount.status.equals('审核通过')}">
+            <c:if test="${entAccount.status.equals('审核通过')}">
                 <div class="col-md-3 mx-auto mt-3">
                     <button class="btn btn-lg btn-outline-danger btn-block" name="status"
                             value="审核不通过" type="submit">取消企业资质
                     </button>
                 </div>
             </c:if>
-            <c:if test="${requestScope.entAccount.status.equals('审核不通过')}">
+            <c:if test="${entAccount.status.equals('审核不通过')}">
                 <div class="col-md-3 mx-auto mt-3">
                     <button class="btn btn-lg btn-outline-success btn-block" name="status"
                             value="审核通过" type="submit">恢复企业资质

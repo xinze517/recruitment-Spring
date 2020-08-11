@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
@@ -10,9 +11,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
           crossorigin="anonymous">
+    <%--suppress SpellCheckingInspection --%>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
+    <%--suppress SpellCheckingInspection --%>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             crossorigin="anonymous"></script>
@@ -41,7 +44,7 @@
             <a class="nav-link" id="account-tab" data-toggle="tab" href="#account">账号设置</a>
         </li>
     </ul>
-    <a class="btn btn-outline-primary" href="logout.adminDo">退出登录</a>
+    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/admin/logout">退出登录</a>
 </div>
 <div class="container my-5">
     <div class="tab-content">
@@ -53,7 +56,7 @@
                         <div class="d-flex justify-content-between align-items-center w-100">
                             <h4>企业会员名单</h4>
                             <button class="btn btn-outline-primary"
-                                    onclick="window.location.href='mainPage.adminDo?tab=ent-manage'">
+                                    onclick="window.location.href='${pageContext.request.contextPath}/admin/mainPage?tab=ent-manage'">
                                 <svg class="bi bi-arrow-clockwise" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -66,15 +69,15 @@
                         </div>
                     </div>
                 </div>
-                <c:forEach items="${requestScope.entInfos}" var="info">
+                <c:forEach items="${entInfos}" var="info">
                     <div class="media text-muted pt-3">
                         <div class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
                             <div class="d-flex justify-content-between align-items-center w-100">
                                 <strong class="text-gray-dark">${info.name}
                                     <c:choose>
-                                        <c:when test="${requestScope.entStatusMap[info.ent_id].equals('未审核')}">
+                                        <c:when test="${entStatusMap[info.ent_id].equals('未审核')}">
                                             <span class="badge badge-primary">待审核</span></c:when>
-                                        <c:when test="${requestScope.entStatusMap[info.ent_id].equals('审核通过')}">
+                                        <c:when test="${entStatusMap[info.ent_id].equals('审核通过')}">
                                             <span class="badge badge-success">审核通过</span></c:when>
                                         <c:otherwise>
                                             <span class="badge badge-danger">审核不通过</span>
@@ -82,9 +85,9 @@
                                     </c:choose>
                                 </strong>
                                 <input type="button" class="btn btn-outline-primary d-block" value="查看"
-                                       onclick="window.location.href='entManagePage.adminDo?entId=${info.ent_id}'"/>
+                                       onclick="window.location.href='${pageContext.request.contextPath}/admin/entManagePage?entId=${info.ent_id}'"/>
                             </div>
-                            <span class="d-block">${info.legal_representative} | ${info.established_date}创办 | ${info.email}</span>
+                            <span class="d-block">${info.legal_representative} | <fmt:formatDate value="${info.established_date}" pattern="yyyy-MM-dd"/> 创办 | ${info.email}</span>
                         </div>
                     </div>
                 </c:forEach>
@@ -98,7 +101,7 @@
                         <div class="d-flex justify-content-between align-items-center w-100">
                             <h4>个人用户名单</h4>
                             <button class="btn btn-outline-primary"
-                                    onclick="window.location.href='mainPage.adminDo?tab=user-manage'">
+                                    onclick="window.location.href='${pageContext.request.contextPath}/admin/mainPage?tab=user-manage'">
                                 <svg class="bi bi-arrow-clockwise" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -111,13 +114,13 @@
                         </div>
                     </div>
                 </div>
-                <c:forEach items="${requestScope.userInfos}" var="item">
+                <c:forEach items="${userInfos}" var="item">
                     <div class="media text-muted pt-3">
                         <div class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
                             <div class="d-flex justify-content-between align-items-center w-100">
                                 <strong class="text-gray-dark">${item.name} | ${item.email}</strong>
                                 <input type="button" class="btn btn-outline-primary d-block" value="管理"
-                                       onclick="window.location.href='editUserAccessPage.adminDo?userId=${item.user_id}'"/>
+                                       onclick="window.location.href='${pageContext.request.contextPath}/admin/editUserAccessPage?userId=${item.user_id}'"/>
                             </div>
                             <span class="d-block">${item.sex} | ${item.city}</span>
                         </div>
@@ -133,7 +136,7 @@
                         <div class="d-flex justify-content-between align-items-center w-100">
                             <h4>岗位列表</h4>
                             <button class="btn btn-outline-primary"
-                                    onclick="window.location.href='mainPage.adminDo?tab=position-manage'">
+                                    onclick="window.location.href='${pageContext.request.contextPath}/admin/mainPage?tab=position-manage'">
                                 <svg class="bi bi-arrow-clockwise" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -146,7 +149,7 @@
                         </div>
                     </div>
                 </div>
-                <c:forEach items="${requestScope.positionList}" var="position_item">
+                <c:forEach items="${positionList}" var="position_item">
                     <div class="media text-muted pt-3">
                         <div class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
                             <div class="d-flex justify-content-between align-items-center w-100">
@@ -162,7 +165,7 @@
                                     </c:if>
                                 </strong>
                                 <input type="button" class="btn btn-outline-primary d-block"
-                                       onclick="window.location.href='editPositionPage.adminDo?positionId=${position_item.position_id}'"
+                                       onclick="window.location.href='${pageContext.request.contextPath}/admin/editPositionPage?positionId=${position_item.position_id}'"
                                        value="管理"/>
                             </div>
                             <span class="d-block">${position_item.description}/${position_item.wage}/${position_item.address}</span>
@@ -179,7 +182,7 @@
                         <div class="d-flex justify-content-between align-items-center w-100">
                             <h4>投诉记录列表</h4>
                             <button class="btn btn-outline-primary"
-                                    onclick="window.location.href='mainPage.adminDo?tab=complaint-manage'">
+                                    onclick="window.location.href='${pageContext.request.contextPath}/admin/mainPage?tab=complaint-manage'">
                                 <svg class="bi bi-arrow-clockwise" width="1em" height="1em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -192,13 +195,13 @@
                         </div>
                     </div>
                 </div>
-                <c:forEach items="${requestScope.complaintList}" var="item">
+                <c:forEach items="${complaintList}" var="item">
                     <div class="media text-muted pt-3">
                         <div class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
                             <div class="d-flex justify-content-between align-items-center w-100">
                                 <strong class="text-gray-dark">
-                                    岗位：${requestScope.positionNameMap[item.position_id]} |
-                                    投诉者：${requestScope.userNameMap[item.user_id]}
+                                    岗位：${positionNameMap[item.position_id]} |
+                                    投诉者：${userNameMap[item.user_id]}
                                     <c:if test="${item.status.equals('未处理')}"><span
                                             class="badge badge-secondary">未处理</span></c:if>
                                     <c:if test="${item.status.equals('投诉成功')}"><span
@@ -207,9 +210,9 @@
                                             class="badge badge-danger">投诉失败</span></c:if>
                                 </strong>
                                 <input type="button" class="btn btn-outline-primary d-block" value="处理"
-                                       onclick="window.location.href='editComplaintPage.adminDo?complaintRecordId=${item.record_id}'">
+                                       onclick="window.location.href='${pageContext.request.contextPath}/admin/editComplaintPage?complaintRecordId=${item.record_id}'">
                             </div>
-                            <span class="d-block">岗位所属公司：${requestScope.entNameMap[item.ent_id]}</span>
+                            <span class="d-block">岗位所属公司：${entNameMap[item.ent_id]}</span>
                         </div>
                     </div>
                 </c:forEach>
@@ -217,7 +220,7 @@
         </div>
         <!-- 账号设置 -->
         <div class="tab-pane fade" id="account">
-            <form action="editPassword.adminDo" method="post">
+            <form action="${pageContext.request.contextPath}/admin/editPassword" method="post">
                 <div class="form-group form-inline justify-content-center my-4">
                     <label for="old_password">请输入旧密码：</label>
                     <input type="password" name="old_password" class="form-control col-md-4" id="old_password"

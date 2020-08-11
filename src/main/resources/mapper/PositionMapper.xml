@@ -23,7 +23,7 @@
     <update id="editStatus" parameterType="map">
         UPDATE position
         SET status=#{status}
-        WHERE position_id = #{position_id};
+        WHERE position_id = #{positionId};
     </update>
 
     <select id="getPosition" parameterType="java.lang.Integer" resultType="com.pojo.Position">

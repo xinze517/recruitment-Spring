@@ -96,12 +96,7 @@ public class RecordComplaintService {
 
     //获取所有记录
     public List<RecordComplaint> getComplaints() {
-        List<RecordComplaint> complaints = complaintDao.getAllRecords();
-        if (complaints.size() == 0) {
-            return null;
-        } else {
-            return complaints;
-        }
+        return complaintDao.getAllRecords();
     }
 
     //获取某一个人的所有记录

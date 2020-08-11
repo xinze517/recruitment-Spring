@@ -9,9 +9,11 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <%--suppress SpellCheckingInspection --%>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
+    <%--suppress SpellCheckingInspection --%>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             crossorigin="anonymous"></script>
@@ -85,7 +87,8 @@
                         <div class="py-2">
                             <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">登录</button>
                             <button class="btn btn-lg btn-outline-primary btn-block" type="button"
-                                    onclick="window.location.href='${pageContext.request.contextPath}/ent/registerPage'">注册
+                                    onclick="window.location.href='${pageContext.request.contextPath}/ent/registerPage'">
+                                注册
                             </button>
                         </div>
                     </div>
@@ -96,7 +99,7 @@
     </div>
     <!-- 管理员登录框 -->
     <div class="tab-pane fade container" id="admin_login">
-        <form method="post" action="login.adminDo">
+        <form method="post" action="${pageContext.request.contextPath}/admin/login">
             <div class="col-4 text-center mx-auto mt-lg-5">
                 <div class="card shadow-sm">
                     <div class="card-header">
