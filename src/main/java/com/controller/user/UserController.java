@@ -1,4 +1,4 @@
-package com.controller;
+package com.controller.user;
 
 import com.pojo.*;
 import com.service.*;
@@ -7,11 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -30,13 +27,6 @@ public class UserController {
         this.applyService = applyService;
         this.complaintService = complaintService;
         this.entService = entService;
-    }
-
-    //跳转登录页
-    @RequestMapping("/indexPage")
-    public void indexPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("tab", "user");
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     //跳转用户注册
@@ -133,7 +123,7 @@ public class UserController {
             request.setAttribute("title", "注册成功");
             request.setAttribute("body", "你的账户" + account + "已注册成功，快去登录吧！");
             //重定向至登录页
-            return "forward:/user/indexPage";
+            return "forward:/";
         }
     }
 
@@ -145,7 +135,7 @@ public class UserController {
             request.setAttribute("title", "登录失败");
             request.setAttribute("body", "该账户" + account + "不存在！");
             //转发至登录页
-            return "forward:/user/indexPage";
+            return "forward:/";
         } else {
             //账户存在，验证密码
             UserAccount userAccount = userService.getUserAccount(account, password);
@@ -154,7 +144,7 @@ public class UserController {
                 request.setAttribute("title", "登录失败");
                 request.setAttribute("body", "你输入的密码有误！");
                 //转发至登录页
-                return "forward:/user/indexPage";
+                return "forward:/";
             } else {
                 //账户、密码均正确
                 int id = userService.getUserId(account);
@@ -245,7 +235,7 @@ public class UserController {
     @RequestMapping("/logout")
     public String logout(HttpSession session) {
         session.removeAttribute("user_id");
-        return "forward:/user/indexPage";
+        return "forward:/";
     }
 
     //增加应聘记录/删除应聘记录

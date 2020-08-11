@@ -42,7 +42,7 @@
                     <div class="py-2">
                         <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
                         <button class="btn btn-lg btn-outline-primary btn-block mb-3" type="button"
-                                onclick="window.location.href='indexPage.userDo'">返回
+                                onclick="window.location.href=''">返回
                         </button>
                     </div>
                 </div>

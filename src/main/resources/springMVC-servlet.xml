@@ -27,4 +27,7 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!--  托管统一异常处理  -->
+    <bean class="com.exception.NotLoginExceptionHandler"/>
+
 </beans>

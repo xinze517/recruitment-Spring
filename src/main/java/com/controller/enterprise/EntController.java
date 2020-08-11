@@ -1,4 +1,4 @@
-package com.controller;
+package com.controller.enterprise;
 
 import com.pojo.*;
 import com.service.*;
@@ -7,11 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,13 +35,6 @@ public class EntController {
     @RequestMapping("/registerPage")
     public String registerPage() {
         return "register_ent";
-    }
-
-    //跳转登录页
-    @RequestMapping("/indexPage")
-    public void indexPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("tab", "ent");
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     //跳转企业注册信息填写页
@@ -151,7 +141,7 @@ public class EntController {
             request.setAttribute("title", "注册成功");
             request.setAttribute("body", "你的账户" + account + "已注册成功，快去登录吧！");
             //转发至登录页
-            return "forward:/ent/indexPage";
+            return "forward:/";
         } else {
             //注册失败
             request.setAttribute("title", "注册失败");
@@ -169,7 +159,7 @@ public class EntController {
             request.setAttribute("title", "登录失败");
             request.setAttribute("body", "该账户" + account + "不存在！");
             //转发至登录页
-            return "forward:/ent/indexPage";
+            return "forward:/";
         } else {
             //账户存在，验证密码
             EntAccount entAccount = entService.getEntAccount(account, password);
@@ -178,7 +168,7 @@ public class EntController {
                 request.setAttribute("title", "登录失败");
                 request.setAttribute("body", "你输入的密码有误！");
                 //转发至登录页
-                return "forward:/ent/indexPage";
+                return "forward:/";
             } else {
                 //账户、密码均正确
                 int id = entService.getEntId(account);
@@ -263,7 +253,7 @@ public class EntController {
                 request.setAttribute("title", "密码修改成功");
                 request.setAttribute("body", "请重新登录你的账号！");
                 //跳转主页
-                return "forward:/ent/indexPage";
+                return "forward:/";
             } else {
                 //修改失败
                 request.setAttribute("title", "密码修改失败");
@@ -279,7 +269,7 @@ public class EntController {
     @RequestMapping("/logout")
     public String logout(HttpSession session) {
         session.removeAttribute("ent_id");
-        return "forward:/ent/indexPage";
+        return "forward:/";
     }
 
     //企业修改应聘状态
