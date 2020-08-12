@@ -336,7 +336,7 @@
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <h1 class="display-3">访问权限不足！</h1>
                     <button class="btn btn-outline-primary"
-                            onclick="window.location.href='${pageContext.request.contextPath}/ent/mainPage'">
+                            onclick="updateAccessLimit()">
                         <svg class="bi bi-arrow-clockwise" width="1em" height="1em" viewBox="0 0 16 16"
                              fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -392,4 +392,18 @@
         $('#${requestScope.tab}-tab').tab('show');
     </script>
 </c:if>
+
+<script>
+    //刷新权限受限页面
+    function updateAccessLimit() {
+        const tab_list = ['info', 'position', 'apply', 'black-list', 'account'];
+        for (const tab of tab_list) {
+            let s = $('#' + tab + '-tab').attr('class');
+            if (s.indexOf('active') !== -1) {
+                window.location.href = '${pageContext.request.contextPath}/ent/mainPage?tab=' + tab;
+                break;
+            }
+        }
+    }
+</script>
 </html>
