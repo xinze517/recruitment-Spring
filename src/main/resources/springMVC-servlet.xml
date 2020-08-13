@@ -2,12 +2,55 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--  配置数据库  -->
+    <bean class="org.apache.commons.dbcp2.BasicDataSource" id="dataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/recruitment?serverTimezone=Hongkong"/>
+        <property name="username" value="root"/>
+        <property name="password" value="pass0911"/>
+
+        <!--    最大连接数    -->
+        <property name="maxTotal" value="30"/>
+        <!--    最大空闲连接数    -->
+        <property name="maxIdle" value="10"/>
+        <!--    初始化连接数    -->
+        <property name="initialSize" value="5"/>
+    </bean>
+
+    <!--  添加事务支持  -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--  开启事务注解  -->
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+    <!--  配置MyBatis工厂，指定数据源，并与MyBatis完美整合  -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+
+    <!--  Mapper代理开发，使用Spring自动扫描MyBatis的接口并装配  -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
 
     <!--  扫描包  -->
+    <context:component-scan base-package="com.service"/>
     <context:component-scan base-package="com.controller"/>
     <context:component-scan base-package="com.aspectj"/>
+
+    <!--  配置json不显示null字段  -->
+    <bean class="com.fasterxml.jackson.databind.ObjectMapper" id="objectMapper">
+        <property name="serializationInclusion" value="NON_NULL"/>
+    </bean>
 
     <!--  注册DateFormatter  -->
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
@@ -17,9 +60,17 @@
             </list>
         </property>
     </bean>
-    <mvc:annotation-driven conversion-service="conversionService"/>
 
-    <!--  访问静态资源  -->
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+                <property name="prettyPrint" value="true"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--  静态资源设置  -->
     <mvc:default-servlet-handler/>
 
     <!--  配置视图解析器  -->
